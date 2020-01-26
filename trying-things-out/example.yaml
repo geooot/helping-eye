@@ -7,8 +7,15 @@ hosts:
 actions:
   - name: Search
     props: 
-      - name: SearchTerm
+      - name: searchTerm
         type: Simple
+    examples:
+      - search for [searchTerm]
+      - look up [searchTerm]
+      - show me [searchTerm]
+      - show me videos with [searchTerm]
+      - show me videos of [searchTerm]
+      - videos of [searchTerm]
     trigger: >
       (props, bot, window, context) => {
         // function would have to be the same name as "name"
@@ -29,5 +36,4 @@ actions:
               ]
             })
           })
-
       }
