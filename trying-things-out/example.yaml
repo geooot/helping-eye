@@ -10,12 +10,12 @@ actions:
       - name: searchTerm
         type: Simple
     examples:
-      - search for [searchTerm]
-      - look up [searchTerm]
-      - show me [searchTerm]
-      - show me videos with [searchTerm]
-      - show me videos of [searchTerm]
-      - videos of [searchTerm]
+      - search for [searchTerm:"dogs"]
+      - look up [searchTerm:"dolphins"]
+      - show me [searchTerm:"podcasts"]
+      - show me videos with [searchTerm:"food"]
+      - show me videos of [searchTerm:"new york"]
+      - videos of [searchTerm:"turtles"]
     trigger: >
       (props, bot, window, context) => {
         // function would have to be the same name as "name"
