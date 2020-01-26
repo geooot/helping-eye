@@ -4,9 +4,12 @@
 //  output: top scoring intent & accuracy rate, all other intents, entities detected
 
 var request = require("request");
-
+var endpoint_url = 'helpingeye.cognitiveservices.azure.com'
+var appID = '24d12b24-a6b4-44ad-b42e-9b3ed7ecbfe6'
+var subscription_key = '46175cc8130144d8a6d3e0ce7c1f3365'
 var options = { method: 'GET',
-  url: 'https://{endpoint_url}/luis/v2.0/apps/{appID}', 
+
+  url: 'https://' + endpoint_url + '/luis/v2.0/apps/' + appID, 
   //  switch out endpoint_url and appID
   qs: 
    { verbose: 'true',
