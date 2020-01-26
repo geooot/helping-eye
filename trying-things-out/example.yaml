@@ -73,6 +73,7 @@ actions:
       videoActions: Simple
     examples:
       - [videoActions:"subscribe"]
+      - [videoActions:"unsubscribe"]
       - [videoActions:"like"]
       - [videoActions:"dislike"]
       - [videoActions:"like"] the video
