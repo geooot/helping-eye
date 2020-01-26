@@ -7,8 +7,7 @@ hosts:
 actions:
   - name: Search
     props: 
-      - name: searchTerm
-        type: Simple
+      searchTerm: Simple
     examples:
       - search for [searchTerm:"dogs"]
       - look up [searchTerm:"dolphins"]
@@ -18,11 +17,97 @@ actions:
       - videos of [searchTerm:"turtles"]
       - give me videos of [searchTerm:"people"]
       - search [searchTerm:"eggs"]
+    trigger: >
+      (props, bot, window, context) => {
+        // function would have to be the same name as "name"
+        // props would be an object that looks like this: { SearchTerm: "some search string" }
+        // bot would be a class with methods to send messages and to invoke other actions
+
+        bot.sendMessage({
+          text: "searching for" + props.SearchTerm + "..."
+        })
+
+        return window.goToPage("/results?search_query=" + encodeURIComponent(props.SearchTerm))
+          .then(_ => {
+            let node = document.readNode(".some-class-thing")
+            bot.sendMessage({
+              text: `Got ${node.content[0]} search results`,
+              attachments: [
+                "", "", ""
+              ]
+            })
+          })
+      }
+
   - name: GoTo
     props:
-      - goToPage
-        
+      goToPage: Simple
+    examples:
+      - open [goToPage:"settings"]
+      - go to [goToPage:"profile"]
+      - view [goToPage:"history"]
+    trigger: >
+      (props, bot, window, context) => {
+        // function would have to be the same name as "name"
+        // props would be an object that looks like this: { SearchTerm: "some search string" }
+        // bot would be a class with methods to send messages and to invoke other actions
 
+        bot.sendMessage({
+          text: "searching for" + props.SearchTerm + "..."
+        })
+
+        return window.goToPage("/results?search_query=" + encodeURIComponent(props.SearchTerm))
+          .then(_ => {
+            let node = document.readNode(".some-class-thing")
+            bot.sendMessage({
+              text: `Got ${node.content[0]} search results`,
+              attachments: [
+                "", "", ""
+              ]
+            })
+          })
+      }
+    
+  - name: VideoInteractions
+    props:
+      videoActions: Simple
+    examples:
+      - [videoActions:"subscribe"]
+      - [videoActions:"like"]
+      - [videoActions:"dislike"]
+      - [videoActions:"like"] the video
+      - [videoActions:"dislike"] the video
+    trigger: >
+      (props, bot, window, context) => {
+        // function would have to be the same name as "name"
+        // props would be an object that looks like this: { SearchTerm: "some search string" }
+        // bot would be a class with methods to send messages and to invoke other actions
+
+        bot.sendMessage({
+          text: "searching for" + props.SearchTerm + "..."
+        })
+
+        return window.goToPage("/results?search_query=" + encodeURIComponent(props.SearchTerm))
+          .then(_ => {
+            let node = document.readNode(".some-class-thing")
+            bot.sendMessage({
+              text: `Got ${node.content[0]} search results`,
+              attachments: [
+                "", "", ""
+              ]
+            })
+          })
+      }
+  - name: Selection
+    props:
+      position: Simple
+    examples:
+      - play [position:"1"]
+      - play video [position:"3"]
+      - pick [position:"5"]
+      - pick video [position:"4"]
+      - select [position:"2"]
+      - select video [position:"7"]
     trigger: >
       (props, bot, window, context) => {
         // function would have to be the same name as "name"
