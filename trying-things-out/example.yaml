@@ -16,6 +16,13 @@ actions:
       - show me videos with [searchTerm:"food"]
       - show me videos of [searchTerm:"new york"]
       - videos of [searchTerm:"turtles"]
+      - give me videos of [searchTerm:"people"]
+      - search [searchTerm:"eggs"]
+  - name: GoTo
+    props:
+      - goToPage
+        
+
     trigger: >
       (props, bot, window, context) => {
         // function would have to be the same name as "name"
