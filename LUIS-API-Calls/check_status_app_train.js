@@ -1,5 +1,5 @@
 //  Jon Waterman
-//  Purpose: Trains Application   ** will fail if any intents have 0 utterances **
+//  Purpose: Checks status of application training
 //  Input: appID
 //  Output: training status
 
@@ -9,11 +9,12 @@ const versionID = "0.1"
 
 const endpoint = "th2020-practice.cognitiveservices.azure.com"
 const subscription_key = "7ff2eb676c8640cf9416e0f7229f9f32"
+var success = true
 
 
 var request = require("request");
 
-var options = { method: 'POST',
+var options = { method: 'GET',
   url: 'https://' + endpoint + '/luis/api/v2.0/apps/' + appID + '/versions/' + versionID + '/train',
   qs: { 'subscription-key': subscription_key },
   headers: 
@@ -23,6 +24,17 @@ var options = { method: 'POST',
 request(options, function (error, response, body) {
   if (error) throw new Error(error);
 
-  console.log(body);
+  let jsonResponse = JSON.parse(body)
+
+for(let thing of jsonResponse) {
+    if(thing["details"]["status"] != 'UpToDate' && thing["details"]["status"] != 'Success')
+    {
+        success = false
+    }
+}
+
+if (success == false) {console.log("TrainingInProgress")}
+else {console.log("UpToDate")}
+
 });
 

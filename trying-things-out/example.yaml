@@ -38,7 +38,6 @@ actions:
             })
           })
       }
-
   - name: GoTo
     props:
       goToPage: Simple
@@ -72,12 +71,12 @@ actions:
     props:
       videoActions: Simple
     examples:
-      - [videoActions:"subscribe"]
-      - [videoActions:"unsubscribe"]
-      - [videoActions:"like"]
-      - [videoActions:"dislike"]
-      - [videoActions:"like"] the video
-      - [videoActions:"dislike"] the video
+      - '[videoActions:"subscribe"]'
+      - '[videoActions:"unsubscribe"]'
+      - '[videoActions:"like"]'
+      - '[videoActions:"dislike"]'
+      - '[videoActions:"like"] the video'
+      - '[videoActions:"dislike"] the video'
     trigger: >
       (props, bot, window, context) => {
         // function would have to be the same name as "name"
