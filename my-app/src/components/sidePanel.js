@@ -2,14 +2,15 @@ import React,{useState} from 'react';
 
 export const SidePanel = () => {
 
-    var counter = 0;
-
     const dummy = [
         {from: "BOT", value: "hello my name is Anikait"},
         {from: "HUMAN", value: "hello my name is George"},
         {from: "BOT", value: "hello my name is Jon"},
         {from: "HUMAN", value: "hello my name is Aditya"},
     ];
+
+    const [dummyData, changeDummyData] = useState(dummy);
+    const onDummyChange = (e) => changeDummyData(e.target.value);
 
     const [userData, changeUserData] = useState('');
     const onChangeUserData = (e) => changeUserData(e.target.value);
@@ -18,11 +19,12 @@ export const SidePanel = () => {
     const onChangeUserResponse = (e) => changeUserResponse(e.target.value);
 
 
-
     const submit = () => {
-        console.log(userData);
+        console.log(userData, [{from: "BOT", value: "This a bot bitch"}, {from: "HUMAN", value: userData}, ...dummyData]);
+        changeDummyData([{from: "BOT", value: "This a bot bitch"}, {from: "HUMAN", value: userData}, ...dummyData]);
+
         changeUserData('');
-        counter++;
+        console.log(dummy);
     }
 
     const onFormSubmit = (e) => {
@@ -35,9 +37,9 @@ export const SidePanel = () => {
                 <div className="sidebar-header" id="header" style={{textAlign: "center", color: "#F2F7F2"}}>
                     <h2 style={{fontSize: "24px", lineHeight: "1.5", color: "#333", paddingTop: "10px"}}>Helping Eye</h2>
                 </div>
-                <div style={{flex: 1, display: "flex", flexDirection: "column-reverse"}}>
-                    { dummy.map(item => (
-                        <div style={{padding: "15px 5px 15px 5px", display: "flex", flexDirection: (item["from"] === "BOT" ? "row" : "row-reverse")}}>
+                <div style={{flex: 1, display: "flex", flexDirection: "column-reverse", overflow: "auto"}}>
+                    { dummyData.map((item, i) => (
+                        <div key={i} style={{padding: "15px 5px 15px 5px", display: "flex", flexDirection: (item["from"] === "BOT" ? "row" : "row-reverse")}}>
                             <div style={{padding: "10px 15px", background: (item["from"] === "BOT" ? "#ddd" : "blue"), color: (item["from"] === "BOT" ? "#333" : "white"), fontSize: "16px", maxWidth: "250px", borderRadius: "15px"}}>
                                 {item["value"]}
                             </div>
