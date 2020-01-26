@@ -1,6 +1,14 @@
+/* global chrome */
+/* global location */
 import React,{useState} from 'react'; 
 
+
+  
+
+
 export const SidePanel = () => {
+    const [, updateState] = React.useState();
+    const forceUpdate = React.useCallback(() => updateState({}), []);
 
     const dummy = [
         {from: "BOT", value: "hello my name is Anikait"},
@@ -8,10 +16,34 @@ export const SidePanel = () => {
         {from: "BOT", value: "hello my name is Jon"},
         {from: "HUMAN", value: "hello my name is Aditya"},
     ];
-
+    
     const [dummyData, changeDummyData] = useState(dummy);
     const onDummyChange = (e) => changeDummyData(e.target.value);
 
+    const bot = {
+        sendMessage: (str) => {
+            console.log("SEND MESSAGE FROM TRIGGER", str)
+            dummyData.unshift({from: "BOT", value: str});
+            forceUpdate();
+        }
+    }
+
+    React.useEffect(() => {
+        console.log("SETTING UP LISTENER")
+        chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
+            console.log("onMessage", request, sender, dummyData)
+            if (request.method == "newBotMessage") {
+                dummyData.unshift({from: "BOT", value: request.data});
+                forceUpdate();
+            } else if (request.method == "evalTrigger") {
+                const trigger = eval(request.data);
+                console.log("THE TRIGGER", trigger)
+                trigger(request.props, bot);
+            }
+        })
+        console.log("SETUP UP LISTENER")
+    }, [])
+    
     const [userData, changeUserData] = useState('');
     const onChangeUserData = (e) => changeUserData(e.target.value);
 
@@ -20,11 +52,10 @@ export const SidePanel = () => {
 
 
     const submit = () => {
-        console.log(userData, [{from: "BOT", value: "This a bot bitch"}, {from: "HUMAN", value: userData}, ...dummyData]);
-        changeDummyData([{from: "BOT", value: "This a bot bitch"}, {from: "HUMAN", value: userData}, ...dummyData]);
-
         changeUserData('');
-        console.log(dummy);
+        dummyData.unshift({from: "HUMAN", value: userData});
+        forceUpdate();
+        chrome.runtime.sendMessage({method: "newHumanMessage", data: {message: userData, host: window.location.host}})
     }
 
     const onFormSubmit = (e) => {

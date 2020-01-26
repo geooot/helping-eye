@@ -18,25 +18,19 @@ actions:
       - give me videos of [searchTerm:"people"]
       - search [searchTerm:"eggs"]
     trigger: >
-      (props, bot, window, context) => {
+      (props, bot) => {
         // function would have to be the same name as "name"
         // props would be an object that looks like this: { SearchTerm: "some search string" }
         // bot would be a class with methods to send messages and to invoke other actions
+        console.log(props);
+        bot.sendMessage(JSON.stringify(props))
 
-        bot.sendMessage({
-          text: "searching for" + props.SearchTerm + "..."
-        })
-
-        return window.goToPage("/results?search_query=" + encodeURIComponent(props.SearchTerm))
-          .then(_ => {
-            let node = document.readNode(".some-class-thing")
-            bot.sendMessage({
-              text: `Got ${node.content[0]} search results`,
-              attachments: [
-                "", "", ""
-              ]
-            })
-          })
+        setTimeout(_ => {
+          bot.sendMessage("Redirecting you somewhere...")
+        }, 250)
+        setTimeout(_ => {
+          window.location = "/somewhere"
+        }, 1000)
       }
   - name: GoTo
     props:
@@ -50,25 +44,20 @@ actions:
       - view [goToPage:"history"]
       - view my [goToPage:"history"]
     trigger: >
-      (props, bot, window, context) => {
+      (props, bot) => {
         // function would have to be the same name as "name"
         // props would be an object that looks like this: { SearchTerm: "some search string" }
         // bot would be a class with methods to send messages and to invoke other actions
+        console.log(props);
+        bot.sendMessage(JSON.stringify(props))
 
-        bot.sendMessage({
-          text: "searching for" + props.SearchTerm + "..."
-        })
+        setTimeout(_ => {
+          bot.sendMessage("Redirecting you somewhere...")
+        }, 250)
+        setTimeout(_ => {
+          window.location = "/somewhere"
+        }, 1000)
 
-        return window.goToPage("/results?search_query=" + encodeURIComponent(props.SearchTerm))
-          .then(_ => {
-            let node = document.readNode(".some-class-thing")
-            bot.sendMessage({
-              text: `Got ${node.content[0]} search results`,
-              attachments: [
-                "", "", ""
-              ]
-            })
-          })
       }
     
   - name: VideoInteractions

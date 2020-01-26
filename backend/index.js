@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const yaml = require('js-yaml');
 const fetch = require('node-fetch');
+const cors = require('cors')
 const admin = require('firebase-admin');
 
 const serviceAccount = require("./adminsdk.json");
@@ -146,6 +147,7 @@ const isAppFinishedTraining = (appId) => {
     })
 }
 
+app.use(cors())
 app.use(express.text({ type: 'text/yaml' }));
 
 // respond with "hello world" when a GET request is made to the homepage
@@ -213,7 +215,7 @@ app.get('/api/app/id/:id/ask', async (req, res) => {
     if (!data) return res.json({ success: false });
     let respon = await askLuis(q, data["luisAppId"]);
 
-    return res.json({ success: true, ...respon });
+    return res.json({ success: true, ...respon, app: data });
 })
 
 app.get('/api/app/domain/:domain/ask', async (req, res) => {
@@ -223,7 +225,7 @@ app.get('/api/app/domain/:domain/ask', async (req, res) => {
     if (!data) return res.json({ success: false });
     let respon = await askLuis(q, data["luisAppId"]);
 
-    return res.json({ success: true, ...respon });
+    return res.json({ success: true, ...respon, app: data });
 })
 
 const publishLuisApp = (appId) => {

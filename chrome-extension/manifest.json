@@ -40,9 +40,9 @@
         "https://*/*"
       ],
       "js": [
-        "src/inject/inject.js",
         "src/inject/2.js",
-        "src/inject/main.chunk.js"
+        "src/inject/main.chunk.js",
+        "src/inject/inject.js"
       ]
     }
   ]

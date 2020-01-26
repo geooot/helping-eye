@@ -89,19 +89,26 @@
 
 
 
+  chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+      console.log(request, sender)
+
+    });
+
+
 chrome.extension.sendMessage({}, function(response) {
-	var readyStateCheckInterval = setInterval(function() {
-	if (document.readyState === "complete") {
-		clearInterval(readyStateCheckInterval);
+  var readyStateCheckInterval = setInterval(function() {
+  if (document.readyState === "complete") {
+    clearInterval(readyStateCheckInterval);
         let temp = document.createElement("div");
         temp.id = "helping_eye_container";
         document.body.appendChild(temp);
         document.body.style.width = "calc(100% - 350px)";
         document.body.style.marginLeft = "auto";
-		// ----------------------------------------------------------
-		// This part of the script triggers when page is done loading
-		// ----------------------------------------------------------
+    // ----------------------------------------------------------
+    // This part of the script triggers when page is done loading
+    // ----------------------------------------------------------
 
-	}
-	}, 10);
+  }
+  }, 10);
 });

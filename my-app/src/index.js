@@ -3,9 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App'
 
-setTimeout(_ => {
+let a = setInterval(_ => {
+    console.log("trying")
+    let elem = document.getElementById('helping_eye_container');
+    if (!elem) return;
+    clearInterval(a);
+    console.log("about to call reactDOM!!!")
     ReactDOM.render(<App />, document.getElementById('helping_eye_container'));
-}, 1000)
+}, 150)
 
 
 // If you want your app to work offline and load faster, you can change
