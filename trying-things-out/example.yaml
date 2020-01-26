@@ -43,8 +43,12 @@ actions:
       goToPage: Simple
     examples:
       - open [goToPage:"settings"]
+      - go to my [goToPage:"settings"]
       - go to [goToPage:"profile"]
+      - go to my [goToPage:"profile"]
+      - view my [goToPage:"settings"]
       - view [goToPage:"history"]
+      - view my [goToPage:"history"]
     trigger: >
       (props, bot, window, context) => {
         // function would have to be the same name as "name"
@@ -100,13 +104,15 @@ actions:
       }
   - name: Selection
     props:
-      position: Simple
+      position: ordinalV2
     examples:
-      - play [position:"1"]
+      - play the [position:"first"] video
       - play video [position:"3"]
-      - pick [position:"5"]
+      - pick the [position:"5th"] video
       - pick video [position:"4"]
       - select [position:"2"]
+      - select the [position:"second"] video
+      - select the [position:"2nd"] video
       - select video [position:"7"]
     trigger: >
       (props, bot, window, context) => {
