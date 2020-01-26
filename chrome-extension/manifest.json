@@ -1,9 +1,8 @@
 {
-  "name": "CHANGE THIS : Extension boilerplate",
+  "name": "Helping Eye",
   "version": "0.0.1",
   "manifest_version": 2,
-  "description": "This extension was created with the awesome extensionizr.com",
-  "homepage_url": "http://extensionizr.com",
+  "description": "Helping you browse the web!",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -16,16 +15,21 @@
     ],
     "persistent": true
   },
+  "page_action": {
+    "default_icon": "icons/icon19.png",
+    "default_title": "page action demo",
+    "default_popup": "src/page_action/page_action.html"
+  },
   "permissions": [
+    "bookmarks",
+    "chrome://favicon/",
     "cookies",
-    "tts",
-    "ttsEngine",
-    "https://*"
+    "tts"
   ],
   "content_scripts": [
     {
       "matches": [
-        "https://www.google.com/*"
+        "https://*/*"
       ],
       "css": [
         "src/inject/inject.css"
@@ -33,10 +37,12 @@
     },
     {
       "matches": [
-        "https://www.google.com/*"
+        "https://*/*"
       ],
       "js": [
-        "src/inject/inject.js"
+        "src/inject/inject.js",
+        "src/inject/2.js",
+        "src/inject/main.chunk.js"
       ]
     }
   ]
