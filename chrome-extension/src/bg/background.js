@@ -34,7 +34,8 @@ chrome.extension.onMessage.addListener(
 
           let props = {}
           for (let param of Object.keys(expectedProps)) {
-            props[param] = entities.filter(item => item.type == expectedProps[param])
+            console.log(entities);
+            props[param] = entities.filter(item => item.type.includes(expectedProps[param]))
           }  
           
           console.log("props", props)

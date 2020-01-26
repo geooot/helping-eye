@@ -10,6 +10,8 @@ actions:
       searchTerm: Simple
     examples:
       - search for [searchTerm:"dogs"]
+      - videos of [serchTerm:"baby yoda"]
+      - '[searchTerm:"cat"] videos'
       - look up [searchTerm:"dolphins"]
       - show me [searchTerm:"podcasts"]
       - show me videos with [searchTerm:"food"]
@@ -19,18 +21,16 @@ actions:
       - search [searchTerm:"eggs"]
     trigger: >
       (props, bot) => {
-        // function would have to be the same name as "name"
-        // props would be an object that looks like this: { SearchTerm: "some search string" }
-        // bot would be a class with methods to send messages and to invoke other actions
-        console.log(props);
-        bot.sendMessage(JSON.stringify(props))
-
+        if(props.searchTerm.length < 1) {
+          bot.sendMessage("Sorry I don't quite understand that command")
+          return;
+        }
+        bot.sendMessage("Searching for " + props.searchTerm[0]["entity"]);
         setTimeout(_ => {
-          bot.sendMessage("Redirecting you somewhere...")
+          document.getElementById("search").querySelector("input").value = props.searchTerm[0]["entity"];
+          document.querySelector("#search-icon-legacy").click()
+          //document.querySelector(".style-scope .ytd-searchbox").submit()
         }, 250)
-        setTimeout(_ => {
-          window.location = "/somewhere"
-        }, 1000)
       }
   - name: GoTo
     props:
@@ -39,24 +39,37 @@ actions:
       - open [goToPage:"settings"]
       - go to my [goToPage:"settings"]
       - go to [goToPage:"profile"]
+      - 'go [goToPage: "home"]'
       - go to my [goToPage:"profile"]
       - view my [goToPage:"settings"]
       - view [goToPage:"history"]
       - view my [goToPage:"history"]
     trigger: >
       (props, bot) => {
-        // function would have to be the same name as "name"
-        // props would be an object that looks like this: { SearchTerm: "some search string" }
-        // bot would be a class with methods to send messages and to invoke other actions
         console.log(props);
-        bot.sendMessage(JSON.stringify(props))
+        if(props.goToPage.length < 1) {
+          bot.sendMessage("Sorry I don't quite understand that command")
+          return;
+        }
+        let page = props.goToPage[0]["entity"];
 
-        setTimeout(_ => {
-          bot.sendMessage("Redirecting you somewhere...")
-        }, 250)
-        setTimeout(_ => {
-          window.location = "/somewhere"
-        }, 1000)
+        if(page == "home") {
+          bot.sendMessage("Going to the home page");
+          document.querySelector('[title="YouTube Home"]').click();
+        } else if (page == "settings") {
+          bot.sendMessage("Going to the settings page");
+          setTimeout(_ => {
+            window.location = "/account";
+          }, 250)  
+        } else if (page == "trending") {
+          bot.sendMessage("Going to the trending page");
+          document.querySelectorAll("#endpoint")[1].click();
+        } else if (page == "subscriptions") {
+          bot.sendMessage("Going to the subscriptions page");
+          document.querySelectorAll("#endpoint")[2].click();
+        } else {
+          bot.sendMessage("Sorry I don't quite know what page that is")
+        }
 
       }
     
@@ -75,21 +88,36 @@ actions:
         // function would have to be the same name as "name"
         // props would be an object that looks like this: { SearchTerm: "some search string" }
         // bot would be a class with methods to send messages and to invoke other actions
+        if(props.videoActions.length < 1) {
+          bot.sendMessage("Sorry I don't quite understand that command")
+          return;
+        }
+        let action = props.videoActions[0]["entity"];
+        if (location.pathname != "/watch") {
+          return bot.sendMessage("You need to be watching a video first before doing these sctions")
+        }
 
-        bot.sendMessage({
-          text: "searching for" + props.SearchTerm + "..."
-        })
+        if (action == "subscribe") {
+          bot.sendMessage("Hitting the subscribe button")
+          document.querySelector("#subscribe-button > ytd-subscribe-button-renderer > paper-button").click()
+          setTimeout(document.querySelector("#button").click(),2000);
+        } else if (action == "unsubscribe") {
+          bot.sendMessage("Hitting the unsubscribe button")
+          document.querySelector("#subscribe-button > ytd-subscribe-button-renderer > paper-button").click()
+          setTimeout(document.querySelector("#button").click(),2000);
+        } else if (action == "like") {
+          bot.sendMessage("Hitting the like button")
+          var btns = document.getElementsByClassName("style-scope ytd-menu-renderer force-icon-button")
+          btns[0].click()
+        } else if (action == "dislike") {
+          bot.sendMessage("Hitting the dislike button")
+          var btns = document.getElementsByClassName("style-scope ytd-menu-renderer force-icon-button")
+          btns[1].click()
+        } else {
+          bot.sendMessage("You need to be watching a video first before doing these sctions");
+        }
 
-        return window.goToPage("/results?search_query=" + encodeURIComponent(props.SearchTerm))
-          .then(_ => {
-            let node = document.readNode(".some-class-thing")
-            bot.sendMessage({
-              text: `Got ${node.content[0]} search results`,
-              attachments: [
-                "", "", ""
-              ]
-            })
-          })
+
       }
   - name: Selection
     props:
@@ -105,22 +133,17 @@ actions:
       - select video [position:"7"]
     trigger: >
       (props, bot, window, context) => {
-        // function would have to be the same name as "name"
-        // props would be an object that looks like this: { SearchTerm: "some search string" }
-        // bot would be a class with methods to send messages and to invoke other actions
-
-        bot.sendMessage({
-          text: "searching for" + props.SearchTerm + "..."
-        })
-
-        return window.goToPage("/results?search_query=" + encodeURIComponent(props.SearchTerm))
-          .then(_ => {
-            let node = document.readNode(".some-class-thing")
-            bot.sendMessage({
-              text: `Got ${node.content[0]} search results`,
-              attachments: [
-                "", "", ""
-              ]
-            })
-          })
+        if(props.position.length < 1) {
+          bot.sendMessage("Sorry I couldn't figure out what video you were refering to")
+          return;
+        }
+        console.log("selection", props.position[0])
+        let select = props.position[0]["resolution"]["offset"];
+        var video_list = document.getElementsByTagName("ytd-video-renderer");
+        if (video_list == null){
+          bot.sendMessage("I couldn't click that video on this page")
+          return;
+        }
+        var targetVid = video_list[select];
+        targetVid.querySelector("#thumbnail").click();
       }
