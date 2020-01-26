@@ -1,0 +1,33 @@
+/* .wrapper {
+    display: flex;
+    width: 100%;
+} */
+
+.test{
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+}
+
+#header{
+    text-align: center;
+    color: #F2F7F2;
+}
+
+#sidebar {
+    width: 350px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 999;
+    background-color: #8E5572;
+    border: 1px solid #8E5572;
+}
+
+#text-box {
+    position:absolute;
+    bottom:0;
+    width:100%;
+    padding: 20px;
+ }
