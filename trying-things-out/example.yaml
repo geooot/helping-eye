@@ -1,0 +1,33 @@
+---
+name: YouTube Actions
+version: 1
+hosts:
+  - youtube.com
+  - www.youtube.com
+actions:
+  - name: Search
+    props: 
+      - name: SearchTerm
+        type: Simple
+    trigger: >
+      (props, bot, window, context) => {
+        // function would have to be the same name as "name"
+        // props would be an object that looks like this: { SearchTerm: "some search string" }
+        // bot would be a class with methods to send messages and to invoke other actions
+
+        bot.sendMessage({
+          text: "searching for" + props.SearchTerm + "..."
+        })
+
+        return window.goToPage("/results?search_query=" + encodeURIComponent(props.SearchTerm))
+          .then(_ => {
+            let node = document.readNode(".some-class-thing")
+            bot.sendMessage({
+              text: `Got ${node.content[0]} search results`,
+              attachments: [
+                "", "", ""
+              ]
+            })
+          })
+
+      }
