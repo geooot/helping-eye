@@ -3,6 +3,8 @@
 
 Making the web easily acccessible through chat bots. Created in 24 hours at [tamuhack 2020](https://tamuhack.com/).
 
+Winner of both Microsoft's and Gartner's Sponsor Challenge at TAMUhack 2020.
+
 ![helping-eye chrome extension](helpingeyes.gif "helping-eye chrome extension")
 
 
