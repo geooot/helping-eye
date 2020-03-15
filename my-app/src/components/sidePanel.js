@@ -33,25 +33,25 @@ export const SidePanel = () => {
         }
     }
 
-    // React.useEffect(() => {
-    //     console.log("SETTING UP LISTENER")
-    //     document.querySelector("#HelpingEye____Input").focus();
-    //     chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
-    //         console.log("onMessage", request, sender, dummyData)
-    //         if (request.method == "newBotMessage") {
-    //             dummyData.unshift({from: "BOT", value: request.data});
-    //             forceUpdate();
-    //         } else if (request.method == "evalTrigger") {
-    //             const trigger = eval(request.data);
-    //             console.log("THE TRIGGER", trigger)
-    //             trigger(request.props, bot);
-    //         }
-    //     })
-    //     console.log("SETUP UP LISTENER")
-    // }, [])
+    React.useEffect(() => {
+        console.log("SETTING UP LISTENER")
+        document.querySelector("#HelpingEye____Input").focus();
+        chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
+            console.log("onMessage", request, sender, dummyData)
+            if (request.method == "newBotMessage") {
+                dummyData.unshift({from: "BOT", value: request.data});
+                forceUpdate();
+            } else if (request.method == "evalTrigger") {
+                const trigger = eval(request.data);
+                console.log("THE TRIGGER", trigger)
+                trigger(request.props, bot);
+            }
+        })
+        console.log("SETUP UP LISTENER")
+    }, [])
 
-    // const [sidePanel, changeSidePanel] = useState(false);
-    // const togglePanel = () => changeSidePanel(!sidePanel);
+    const [sidePanel, changeSidePanel] = useState(false);
+    const togglePanel = () => changeSidePanel(!sidePanel);
     
     const [userData, changeUserData] = useState('');
     const onChangeUserData = (e) => changeUserData(e.target.value);
@@ -78,7 +78,7 @@ export const SidePanel = () => {
                     <div className="sidebar-header col" id="header" style={{textAlign: "center", color: "#F2F7F2"}}>
                         <h2 style={{fontSize: "24px", lineHeight: "1.5", color: "#333", paddingTop: "10px"}}>Helping Eye</h2>
                     </div>
-                    <button type="button" className="close col-1" aria-label="Close" style={{ display: 'flex', alignItems: 'flex-end' }}>
+                    <button type="button" className="close col-1" aria-label="Close" onClick={togglePanel()} style={{ display: 'flex', alignItems: 'flex-end' }}>
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
